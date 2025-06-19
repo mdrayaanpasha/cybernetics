@@ -1,21 +1,23 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDarkModeStore } from "../stores/darkmode";
 import v1 from "../assets/videos/Multiplixer.mp4";
 import v2 from "../assets/videos/Syntaxia.mp4";
 
 export default function Events() {
     const { darkMode } = useDarkModeStore();
-    const [hoveredCard, setHoveredCard] = useState(null);
     const videoRefs = [useRef(null), useRef(null)];
 
-    const handleVideoHover = (index) => {
-        setHoveredCard(index);
-        videoRefs[index].current.play();
-    };
+    // Auto-play both videos on mount
+    useEffect(() => {
+        videoRefs.forEach((ref) => {
+            if (ref.current) {
+                ref.current.play().catch(() => { }); // prevent blocking on some browsers
+            }
+        });
+    }, []);
 
     return (
         <section className={`relative px-4 py-20 md:py-28 transition-colors duration-300 ${darkMode ? "bg-[#0a0a14]" : "bg-[#fafcff]"}`}>
-            {/* Animated cosmic background */}
             <div className="absolute inset-0 z-0 overflow-hidden">
                 <div className="absolute top-1/4 left-1/4 w-72 h-72 rounded-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-cyan-500/10 to-transparent blur-3xl animate-pulse-slow" />
                 <div className="absolute bottom-1/3 right-1/3 w-64 h-64 rounded-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-500/15 to-transparent blur-3xl animate-pulse-medium" />
@@ -54,10 +56,7 @@ export default function Events() {
                     ].map((event, index) => (
                         <div
                             key={index}
-                            className={`relative group overflow-hidden rounded-3xl border transition-all duration-500 ease-out ${darkMode ? "border-white/10" : "border-black/10"} 
-                                ${hoveredCard === index ? 'shadow-2xl scale-[1.02]' : 'shadow-lg'}`}
-                            onMouseEnter={() => handleVideoHover(index)}
-                            onMouseLeave={() => setHoveredCard(null)}
+                            className={`relative overflow-hidden rounded-3xl border shadow-lg transition-all duration-500 ease-out ${darkMode ? "border-white/10" : "border-black/10"}`}
                             style={{
                                 background: darkMode
                                     ? 'radial-gradient(150% 150% at 50% 100%, rgba(26, 32, 45, 0.5) 0%, rgba(9, 10, 15, 0.8) 70%)'
@@ -65,9 +64,7 @@ export default function Events() {
                                 backdropFilter: 'blur(12px)'
                             }}
                         >
-                            {/* Glow effect */}
-                            <div className={`absolute inset-0 rounded-3xl transition-opacity duration-500 ${hoveredCard === index ? `opacity-100` : 'opacity-0'} 
-                                ${event.accent === 'cyan' ? 'bg-cyan-500/10' : 'bg-purple-500/10'}`} />
+                            <div className={`absolute inset-0 rounded-3xl ${event.accent === 'cyan' ? 'bg-cyan-500/10' : 'bg-purple-500/10'}`} />
 
                             <div className="relative h-72 overflow-hidden">
                                 <video
@@ -76,7 +73,8 @@ export default function Events() {
                                     muted
                                     loop
                                     playsInline
-                                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                                    autoPlay
+                                    className="w-full h-full object-cover"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/70" />
                             </div>
@@ -91,17 +89,16 @@ export default function Events() {
                                             {event.emoji} {event.title}
                                         </h3>
                                     </div>
-                                    <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${darkMode ? 'bg-white/10' : 'bg-black/10'} ${hoveredCard === index ? 'rotate-12 scale-110' : ''}`}>
+                                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${darkMode ? 'bg-white/10' : 'bg-black/10'}`}>
                                         <span className="text-lg">→</span>
                                     </div>
                                 </div>
-                                <p className={`mt-3 text-sm md:text-base ${darkMode ? "text-gray-300" : "text-gray-700"} transition-all duration-500 ${hoveredCard === index ? 'translate-y-0' : 'md:translate-y-1'} ${hoveredCard === index ? 'opacity-100' : 'md:opacity-90'}`}>
+                                <p className={`mt-3 text-sm md:text-base ${darkMode ? "text-gray-300" : "text-gray-700"}`}>
                                     {event.description}
                                 </p>
                             </div>
 
-                            {/* Hover indicator */}
-                            <div className={`absolute bottom-4 left-6 h-1 rounded-full transition-all duration-500 ease-out ${hoveredCard === index ? 'w-20' : 'w-8'} ${event.accent === 'cyan' ? 'bg-cyan-400' : 'bg-purple-400'}`} />
+                            <div className={`absolute bottom-4 left-6 h-1 rounded-full w-20 ${event.accent === 'cyan' ? 'bg-cyan-400' : 'bg-purple-400'}`} />
                         </div>
                     ))}
                 </div>
