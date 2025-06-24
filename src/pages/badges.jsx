@@ -43,17 +43,16 @@ const Badge = ({ name, role }) => {
     const icon = designationIcons[role] || <Users className="w-4 h-8 text-black/90" />; // Fallback icon
 
     return (
-        <div className="flex items-center p-5 m-3 bg-white/10 backdrop-blur-lg border border-gray-200 rounded-xl  w-full max-w-xs sm:max-w-sm lg:max-w-md transform transition-all duration-300 hover:bg-white/20 hover:shadow-[0_12px_32px_rgba(0,0,0,0.1)]">
-
+        <div className="flex items-center p-5 m-3 bg-white/10 backdrop-blur-lg border border-gray-200 rounded-xl w-[30vw] transform transition-all duration-300 hover:bg-white/20 hover:shadow-[0_12px_32px_rgba(0,0,0,0.1)]">
             {/* Logo with glass effect */}
-            <div className="flex-shrink-0 mr-5">
+            <div className=" mr-5">
                 <div className="bg-white/20 backdrop-blur-sm p-1 rounded-full border border-white/20">
                     <img src={sjulogo} alt="SJU Logo" className="w-12 h-12 object-contain" />
                 </div>
             </div>
 
             {/* Text content */}
-            <div className="flex-grow  text-left">
+            <div className="flex-grow w-full text-left">
                 <center>
                     <p className="text-sm font-bold text-black/80 uppercase tracking-[0.1em] mb-0.5">
                         ST JOSEPH'S UNIVERSITY
@@ -89,7 +88,7 @@ const CoreMembersSection = () => {
                 <div className="h-1 w-24 bg-gradient-to-r from-purple-500 to-indigo-500 mx-auto rounded-full"></div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
+            <div className=" gap-6 w-full max-w-6xl">
                 {badgeData.map((badge, index) => (
                     <Badge key={index} name={badge.name} role={badge.role} />
                 ))}
