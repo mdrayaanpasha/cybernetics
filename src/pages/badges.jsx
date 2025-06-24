@@ -1,10 +1,8 @@
 import React from 'react';
 import sjulogo from "../assets/images/sju-logo.png";
 
-// Lucide Icons
 import { Crown, Users, Megaphone, Brush, DollarSign, Laptop, Truck, FileText, Instagram, Settings } from 'lucide-react';
 
-// Icon Map based on designations
 const designationIcons = {
     'PRESIDENT': <Crown className="w-5 h-5 text-black/90" />,
     'VICE PRESIDENT': <Users className="w-5 h-5 text-black/90" />,
@@ -20,7 +18,6 @@ const designationIcons = {
     'HEAD OF ART & DECOR': <Brush className="w-5 h-5 text-black/90" />,
 };
 
-// Badge Data
 const badgeData = [
     { role: "PRESIDENT", name: "Monisha S", quote: "Let’s build legacies, not just projects." },
     { role: "VICE PRESIDENT", name: "Tushar Tiwari", quote: "If it runs on logic and chaos, count me in." },
@@ -52,7 +49,6 @@ const Badge = ({ name, role }) => {
                     </div>
                 </div>
 
-                {/* Text */}
                 <div className="flex-grow text-center">
                     <p className="text-sm font-bold text-black/80 uppercase tracking-[0.1em] mb-1">
                         ST JOSEPH'S UNIVERSITY
